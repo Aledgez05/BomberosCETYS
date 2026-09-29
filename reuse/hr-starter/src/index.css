@@ -1,0 +1,39 @@
+@import "tailwindcss";
+
+:root {
+  font-family: "Aptos", "Segoe UI", sans-serif;
+  color: #242321;
+  background: #f5f4f0;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; min-width: 320px; min-height: 100vh; }
+button, input { font: inherit; }
+a { color: inherit; }
+
+.app-shell { min-height: 100vh; display: flex; flex-direction: column; }
+.topbar { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: 1rem clamp(1rem, 4vw, 3rem); color: #fff; background: #632728; }
+.topbar strong { font-size: 1rem; }
+.topbar button, .login-form button { border: 0; border-radius: 4px; padding: .65rem 1rem; color: #fff; background: #35645a; cursor: pointer; }
+.page-content { width: min(100% - 2rem, 72rem); margin: 2rem auto; }
+.page-content h1 { margin: 0 0 .5rem; font-size: 1.8rem; }
+.page-content p { color: #5d5b57; }
+.starter-note { border-left: 4px solid #c58b3c; padding: .75rem 1rem; background: #fff; }
+.status-page, .login-page { min-height: 100vh; display: grid; place-content: center; padding: 1.25rem; }
+.status-page { max-width: 42rem; margin: auto; }
+.status-page h1 { margin-bottom: .25rem; }
+.login-page { background: linear-gradient(135deg, #f5f4f0 0%, #e6ece8 100%); }
+.login-form { display: grid; gap: 1rem; width: min(100%, 27rem); padding: clamp(1.25rem, 5vw, 2.5rem); border-top: 5px solid #632728; background: #fff; box-shadow: 0 14px 38px #24232116; }
+.login-form h1 { margin: 0; font-size: 1.75rem; }
+.eyebrow { margin: 0; color: #632728; font-size: .75rem; font-weight: 700; text-transform: uppercase; }
+.login-form label { display: grid; gap: .35rem; font-size: .9rem; font-weight: 600; }
+.login-form input { min-width: 0; padding: .7rem; border: 1px solid #b9b7b1; border-radius: 3px; }
+.login-form button:disabled { opacity: .5; cursor: not-allowed; }
+.notice { margin: 0; padding: .7rem; color: #792c26; background: #fff0ed; font-size: .9rem; }
+
+@media (max-width: 520px) {
+  .topbar { align-items: flex-start; flex-direction: column; }
+  .page-content { margin-top: 1.25rem; }
+}
