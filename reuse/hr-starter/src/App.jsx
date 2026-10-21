@@ -2,6 +2,9 @@ import { useEffect, useMemo, useState } from 'react'
 import { BrowserRouter, NavLink, Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import { Building2, ClipboardList, Eye, Home, Pencil, Plus, Search, Settings, Users } from 'lucide-react'
 import { demoEmployees, stationName, stations } from './lib/demoData'
+import Login from './pages/Login'
+import RequireAuth from './components/RequireAuth'
+import { useAuth } from './context/AuthContext'
 
 const STORAGE_KEY = 'bomberos-tijuana-hr-employees-v1'
 
@@ -17,12 +20,16 @@ function readEmployees() {
 export default function App() {
   return (
     <BrowserRouter>
-      <HRWorkspace />
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/*" element={<RequireAuth><HRWorkspace /></RequireAuth>} />
+      </Routes>
     </BrowserRouter>
   )
 }
 
 function HRWorkspace() {
+  const { profile, signOut } = useAuth()
   const location = useLocation()
   const [employees, setEmployees] = useState(readEmployees)
   const [search, setSearch] = useState('')
@@ -100,7 +107,7 @@ function HRWorkspace() {
           <div className="topbar-context">
             <span>Recursos Humanos</span><span className="crumb-divider">/</span><strong>{pageTitle}</strong>
           </div>
-          <div className="topbar-user"><span className="user-avatar">RH</span><span>Administración</span></div>
+          <div className="topbar-user"><span className="user-avatar">RH</span><span>{profile?.display_name ?? 'Cuenta'}</span><button type="button" onClick={signOut}>Cerrar sesión</button></div>
         </header>
 
         <main className="page-content">
