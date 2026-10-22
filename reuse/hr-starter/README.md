@@ -9,7 +9,7 @@ Move the whole `reuse/` directory into the new repository. Then either run this 
 1. In `hr-starter/` (or the new repository root after copying), run `npm ci` and `npm run dev`.
 2. The app runs without Supabase configuration using seeded demonstration records. Changes are stored in this browser's `localStorage` and are not shared with other users or devices.
 3. To begin a later Supabase integration, copy `.env.example` to `.env.local`, set the Supabase project URL and public anon/publishable key, and design the access policies before connecting personnel data.
-4. Review `supabase/migrations/0001_hr_foundation_template.sql` with the client and security reviewer before applying it. Personnel tables have RLS enabled and intentionally have no read/write policies, so they deny access until policies are designed.
+4. For the complete RH model, review and apply `supabase/migrations/001_init_rh_schema.sql` in a blank Supabase project. Follow `SUPABASE_SETUP.md` to create the first administrator. The older `0001_hr_foundation_template.sql` is an alternative minimal template and must not be applied together with the complete model.
 5. Fill the role/permission matrix in `src/hooks/usePermissions.js` only after roles are confirmed. A missing permission mapping denies access.
 6. Obtain the real source Excel workbooks and configure the parser's required fields and row validator before importing production data.
 
@@ -24,7 +24,8 @@ Never put a Supabase service-role key in the frontend. The current MVP does not 
 - `src/lib/employeeFilters.js`: generic multi-field search and exact facet filtering.
 - `src/lib/spreadsheetImport.js`, `src/components/EmployeeImportPreview.jsx`: ExcelJS/Papa Parse Excel/CSV parsing, required-field validation, duplicate checking helper, and preview-only import UI.
 - `src/lib/reportExport.js`: generic Excel and PDF table exports.
-- `supabase/migrations/0001_hr_foundation_template.sql`: minimal stations, user profiles/membership, employee identity, and dated assignment tables; no personnel policies are granted.
+- `supabase/migrations/001_init_rh_schema.sql`: complete 13-table RH/flota schema with constraints, indexes, authentication profile trigger, and role-aware RLS policies.
+- `SUPABASE_SETUP.md`: steps to apply the schema and promote the first administrator without exposing database secrets.
 
 ## Decisions still needed
 
