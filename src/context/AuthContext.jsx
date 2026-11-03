@@ -62,13 +62,13 @@ export function AuthProvider({ children }) {
 
     supabase
       .from('profiles')
-      .select('user_id, display_name, role_key')
-      .eq('user_id', session.user.id)
+      .select('id, username, nombre_completo, rol, activo')
+      .eq('id', session.user.id)
       .maybeSingle()
       .then(({ data, error }) => {
         if (!active) return
         if (error) setProfileError(error.message)
-        else if (!data) setProfileError('No application profile is assigned to this account.')
+        else if (!data) setProfileError('Esta cuenta no tiene un perfil de la aplicación.')
         else setProfile(data)
         setProfileLoading(false)
       })
@@ -79,7 +79,7 @@ export function AuthProvider({ children }) {
   }, [supabase, session?.user?.id])
 
   const signIn = useCallback(async (email, password) => {
-    if (!supabase) return { error: new Error('Supabase is not configured.') }
+    if (!supabase) return { error: new Error('Supabase no está configurado.') }
     return supabase.auth.signInWithPassword({ email, password })
   }, [supabase])
 

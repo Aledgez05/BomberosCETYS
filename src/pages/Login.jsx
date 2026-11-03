@@ -22,7 +22,7 @@ export default function Login() {
       if (signInError) throw signInError
       navigate('/', { replace: true })
     } catch (cause) {
-      setError(cause?.message || 'Sign-in failed.')
+      setError(cause?.message || 'No se pudo iniciar sesión.')
     } finally {
       setBusy(false)
     }
@@ -34,7 +34,7 @@ export default function Login() {
         <p className="eyebrow">Dirección de Bomberos Tijuana</p>
         <h1>Recursos Humanos</h1>
         {!isSupabaseConfigured && (
-          <p className="notice" role="alert">Configure Supabase in .env.local before signing in.</p>
+          <p className="notice" role="alert">Configura Supabase en .env.local antes de iniciar sesión.</p>
         )}
         <label>
           Correo institucional

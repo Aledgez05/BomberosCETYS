@@ -1,5 +1,5 @@
 {
-  "name": "bomberos-tijuana-hr-starter",
+  "name": "bomberos-tijuana-rh",
   "private": true,
   "version": "0.1.0",
   "type": "module",
@@ -10,11 +10,7 @@
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.105.3",
-    "exceljs": "^4.4.0",
-    "jspdf": "^4.2.1",
-    "jspdf-autotable": "^5.0.7",
     "lucide-react": "^1.48.0",
-    "papaparse": "^5.7.0",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
     "react-router-dom": "^7.15.0"
