@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { BrowserRouter, NavLink, Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import { Building2, ClipboardList, Eye, Home, Pencil, Plus, Search, Settings, Users } from 'lucide-react'
 import Login from './pages/Login'
+import Reports from './pages/Reports'
 import RequireAuth from './components/RequireAuth'
 import { useAuth } from './context/AuthContext'
 import { usePermissions } from './hooks/usePermissions'
@@ -107,9 +108,11 @@ function HRWorkspace() {
     <div className="app-shell">
       <aside className="sidebar">
         <div className="brand-lockup">
-          <div className="brand-mark" aria-hidden="true">BT</div>
+          <div className="brand-mark" aria-hidden="true">
+            <img src="/logoayu.png" alt="" />
+          </div>
           <div>
-            <p>Tijuana Bomberoides</p>
+            <p>Bomberos Tijuana</p>
             <strong>Dirección de Bomberos</strong>
           </div>
         </div>
@@ -134,7 +137,11 @@ function HRWorkspace() {
           <div className="topbar-context">
             <span>Recursos Humanos</span><span className="crumb-divider">/</span><strong>{pageTitle}</strong>
           </div>
-          <div className="topbar-user"><span className="user-avatar">RH</span><span>{profile?.nombre_completo ?? 'Cuenta'}</span><button type="button" onClick={signOut}>Cerrar sesión</button></div>
+          <div className="topbar-user">
+            <span className="user-avatar">RH</span>
+            <span>{profile?.nombre_completo ?? 'Cuenta'}</span>
+            <button type="button" className="button button-secondary" onClick={signOut}>Cerrar sesión</button>
+          </div>
         </header>
 
         <main className="page-content">
@@ -164,7 +171,7 @@ function HRWorkspace() {
               />
             )} />
             <Route path="/stations" element={<StationsPage employees={employees} stations={catalogs.stations} />} />
-            <Route path="/reports" element={<ReportsPage employees={employees} stations={catalogs.stations} />} />
+            <Route path="/reports" element={<Reports employees={employees} stations={catalogs.stations} turnos={catalogs.turnos} />} />
             <Route path="/settings" element={(
               <SettingsPage
                 supabase={supabase}
@@ -344,37 +351,6 @@ function StationsPage({ employees, stations }) {
         </table>
       </div>
       <p className="data-note">La asignación de estación se administra desde el expediente del empleado.</p>
-    </>
-  )
-}
-
-function ReportsPage({ employees, stations }) {
-  const activeEmployees = employees.filter((employee) => employee.estatusActual === 'ACTIVO').length
-
-  return (
-    <>
-      <div className="page-heading">
-        <div><p className="eyebrow">Consultas internas</p><h1>Reportes</h1><p className="heading-subtitle">Concentrados básicos del directorio de Recursos Humanos.</p></div>
-      </div>
-      <section className="report-summary" aria-label="Resumen de empleados">
-        <div><span>Total de empleados</span><strong>{employees.length}</strong></div>
-        <div><span>Activos</span><strong>{activeEmployees}</strong></div>
-        <div><span>Otros estados</span><strong>{employees.length - activeEmployees}</strong></div>
-      </section>
-      <section className="report-section">
-        <SectionHeading title="Concentrado por estación" />
-        <div className="table-wrap">
-          <table className="admin-table">
-            <thead><tr><th>Estación</th><th className="numeric-cell">Total</th><th className="numeric-cell">Activos</th><th className="numeric-cell">Otros estados</th></tr></thead>
-            <tbody>{stations.map((station) => {
-              const stationEmployees = employees.filter((employee) => employee.estacionId === station.id)
-              const active = stationEmployees.filter((employee) => employee.estatusActual === 'ACTIVO').length
-              return <tr key={station.id}><td className="employee-name">{station.nombre}</td><td className="numeric-cell">{stationEmployees.length}</td><td className="numeric-cell">{active}</td><td className="numeric-cell">{stationEmployees.length - active}</td></tr>
-            })}</tbody>
-            <tfoot><tr><th>Total general</th><th className="numeric-cell">{employees.length}</th><th className="numeric-cell">{activeEmployees}</th><th className="numeric-cell">{employees.length - activeEmployees}</th></tr></tfoot>
-          </table>
-        </div>
-      </section>
     </>
   )
 }
